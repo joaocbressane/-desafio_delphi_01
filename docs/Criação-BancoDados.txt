@@ -1,0 +1,47 @@
+CREATE TABLE graos (
+idgrao INTEGER PRIMARY KEY,
+descricao VARCHAR(60)
+);
+
+CREATE TABLE produtores (
+idprodutor INTEGER PRIMARY KEY,
+nome VARCHAR(100),
+cnpj CHAR(14)
+);
+
+CREATE TABLE traders (
+idtrade INTEGER PRIMARY KEY,
+nome VARCHAR(100)
+);
+
+CREATE TABLE silos (
+idsilo INTEGER,
+idtrade INTEGER,
+capacidade DECIMAL,
+PRIMARY KEY(idsilo,idtrade),
+FOREIGN KEY(idtrade) REFERENCES traders (idtrade)
+);
+
+CREATE TABLE contratos (
+idcontrato INTEGER PRIMARY KEY,
+idprodutor INTEGER,
+idgrao INTEGER,
+idtrade INTEGER,
+quantidade DECIMAL,
+FOREIGN KEY(idprodutor) REFERENCES produtores (idprodutor),
+FOREIGN KEY(idgrao) REFERENCES graos (idgrao),
+FOREIGN KEY(idtrade) REFERENCES traders (idtrade)
+);
+
+CREATE TABLE armazenamento (
+idarmazenamento INTEGER PRIMARY KEY,
+idsilo INTEGER,
+idtrade INTEGER,
+idcontrato INTEGER,
+quantidade DECIMAL,
+FOREIGN KEY(idcontrato) REFERENCES contratos (idcontrato)
+);
+
+ALTER TABLE armazenamento ADD FOREIGN KEY(idsilo,idtrade) REFERENCES silos (idsilo,idtrade);
+
+
